@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Employee Salary Prediction</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #6b7280, #3b82f6);
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      transition: background 0.5s ease-in-out;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      max-width: 700px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e40af;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: color 0.3s ease;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #1f2937;
+      transition: color 0.3s ease;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #f9fafb;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      transform: scale(1.02);
+    }
+
+    button {
+      grid-column: 1 / -1;
+      padding: 12px;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #059669, #10b981);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+    }
+
+    #result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1e40af;
+      padding: 15px;
+      border-radius: 8px;
+      background: #eff6ff;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #4b5563;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Employee Salary Prediction</h1>
+    <form id="predictForm">
+      <div>
+        <label>Age</label>
+        <input type="number" id="age" value="39" />
+      </div>
+      <div>
+        <label>Workclass</label>
+        <select id="workclass">
+          <option>Private</option>
+          <option>Self-emp-not-inc</option>
+          <option>Self-emp-inc</option>
+          <option>Federal-gov</option>
+          <option>Local-gov</option>
+          <option>State-gov</option>
+          <option>Without-pay</option>
+          <option>Never-worked</option>
+        </select>
+      </div>
+      <div>
+        <label>Fnlwgt</label>
+        <input type="number" id="fnlwgt" value="77516" />
+      </div>
+      <div>
+        <label>Education Num</label>
+        <input type="number" id="education-num" value="13" />
+      </div>
+      <div>
+        <label>Marital Status</label>
+        <select id="marital-status">
+          <option>Never-married</option>
+          <option>Married-civ-spouse</option>
+          <option>Divorced</option>
+          <option>Separated</option>
+          <option>Widowed</option>
+          <option>Married-spouse-absent</option>
+        </select>
+      </div>
+      <div>
+        <label>Occupation</label>
+        <select id="occupation">
+          <option>Prof-specialty</option>
+          <option>Tech-support</option>
+          <option>Craft-repair</option>
+          <option>Sales</option>
+          <option>Exec-managerial</option>
+          <option>Prof-specialty</option>
+          <option>Handlers-cleaners</option>
+          <option>Machine-op-inspct</option>
+          <option>Adm-clerical</option>
+          <option>Protective-serv</option>
+          <option>others</option>
+        </select>
+      </div>
+      <div>
+        <label>Relationship</label>
+        <select id="relationship">
+          <option>Not-in-family</option>
+          <option>Husband</option>
+          <option>Wife</option>
+          <option>Own-child</option>
+          <option>Unmarried</option>
+        </select>
+      </div>
+      <div>
+        <label>Race</label>
+        <select id="race">
+          <option>White</option>
+          <option>Black</option>
+          <option>Asian-Pac-Islander</option>
+          <option>Amer-Indian-Eskimo</option>
+          <option>Others</option>
+        </select>
+      </div>
+      <div>
+        <label>Gender</label>
+        <select id="gender">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Others</option>
+        </select>
+      </div>
+      <div>
+        <label>Capital Gain</label>
+        <input type="number" id="capital-gain" value="0" />
+      </div>
+      <div>
+        <label>Capital Loss</label>
+        <input type="number" id="capital-loss" value="0" />
+      </div>
+      <div>
+        <label>Hours Per Week</label>
+        <input type="number" id="hours-per-week" value="40" />
+      </div>
+      <div style="grid-column:1/-1;">
+        <label>Native Country</label>
+        <select id="native-country">
+          <option>United-States</option>
+          <option>Mexico</option>
+          <option>India</option>
+          <option>Philippines</option>
+          <option>Germany</option>
+          <option>Canada</option>
+          <option>China</option>
+          <option>Cuba</option>
+          <option>England</option>
+          <option>Italy</option>
+          <option>Portugal</option>
+          <option>Japan</option>
+        </select>
+      </div>
+      <button type="submit">Predict</button>
+    </form>
+
+    <div id="result">Prediction will appear here</div>
+
+    <footer>Rahul Cheedella | 2025</footer>
+
+  </div>
+<script>
+  const ENDPOINT = '/predict';
+  const FEATURE_KEYS = [
+    'age','workclass','fnlwgt','education-num','marital-status','occupation',
+    'relationship','race','gender','capital-gain','capital-loss','hours-per-week','native-country'
+  ];
+
+  function readForm(){
+    const obj = {};
+    FEATURE_KEYS.forEach(k => {
+      const id = k.replace(/-/g,'_');
+      const field = document.getElementById(id) || document.getElementById(k);
+      if(!field){ obj[k] = null; return; }
+      const val = field.value;
+      if(['age','fnlwgt','education-num','capital-gain','capital-loss','hours-per-week'].includes(k)){
+        obj[k] = val === '' ? 0 : Number(val);
+      } else {
+        obj[k] = val;
+      }
+    });
+    return obj;
+  }
+
+  document.getElementById('predictForm').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const payload = readForm();
+    document.getElementById('result').textContent = "Predicting...";
+
+    try {
+      const resp = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await resp.json();
+
+      if(!resp.ok){
+        document.getElementById('result').textContent = "Error: " + (data.error || "Server error");
+        return;
+      }
+
+      // 🔹 Only show label (e.g. >50K or <=50K)
+      if (data.label == 1) {
+      document.getElementById('result').textContent =
+        "Predicted Salary: " + ">50k";
+      }
+      else {
+        document.getElementById('result').textContent =
+        "Predicted Salary: " + "<=50k";
+      }
+
+    } catch(err){
+      document.getElementById('result').textContent = "Network error: " + err;
+    }
+  });
+</script>
+
+</body>
+</html>
