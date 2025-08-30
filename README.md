@@ -16,6 +16,8 @@ This project is a Machine Learning-based web application that predicts whether a
 
 🌟 Users can interact with a web interface where they input employee details, and the application will predict the salary category (>50K or <=50K).
 
+
+
 🛠️ Technologies & Libraries Used
 Programming Language
 
@@ -45,25 +47,29 @@ CSS3 → Styling
 
 JavaScript → Input handling and sending requests
 
+
+
 📊 Dataset
 
-The dataset used contains employee-related features such as:
+--> The dataset used contains employee-related features such as:
 
-Experience (Years of Experience)
+--> Experience (Years of Experience)
 
-Education Level
+--> Education Level
 
-Job Role / Position
+--> Job Role / Position
 
-Work Class (Private/Government/Self-employed, etc.)
+--> Work Class (Private/Government/Self-employed, etc.)
 
-Age
+--> Age
 
-Gender
+--> Gender
 
-Other categorical/continuous variables
+--> Other categorical/continuous variables
 
 The target variable is the salary of the employee.
+
+
 
 🧠 Machine Learning Model
 
@@ -77,3 +83,4 @@ The trained model generalizes well and can make accurate salary predictions for 
 
 Contributions are welcome!
 Fork this repo, improve it, and submit a PR.
+
