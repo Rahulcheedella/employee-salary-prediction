@@ -1,21 +1,20 @@
 📊 Employee Salary Prediction using Machine Learning
+
 🚀 Project Overview
 
 This project is a Machine Learning-based web application that predicts whether an employee's annual salary is greater than 50K or less than/equal to 50K, based on features like age, workclass, education, occupation, marital status, hours worked per week, etc.
 
-The project demonstrates the complete end-to-end ML workflow:
+⚙️ Features
 
-Data preprocessing
+📊 Predicts salary based on employee profile inputs.
 
-Feature encoding & scaling
+🤖 Uses a Machine Learning regression model trained on real-world-like employee datasets.
 
-Model training & evaluation
+🖥️ Web-based interface built with Flask and HTML templates.
 
-Saving trained model
+🔄 Model saved with joblib/pickle for easy reuse.
 
-Building a Flask web application for deployment
-
-Users can interact with a web interface where they input employee details, and the application will predict the salary category (>50K or <=50K).
+🌟 Users can interact with a web interface where they input employee details, and the application will predict the salary category (>50K or <=50K).
 
 🛠️ Technologies & Libraries Used
 Programming Language
@@ -45,3 +44,36 @@ HTML5 → Page structure
 CSS3 → Styling
 
 JavaScript → Input handling and sending requests
+
+📊 Dataset
+
+The dataset used contains employee-related features such as:
+
+Experience (Years of Experience)
+
+Education Level
+
+Job Role / Position
+
+Work Class (Private/Government/Self-employed, etc.)
+
+Age
+
+Gender
+
+Other categorical/continuous variables
+
+The target variable is the salary of the employee.
+
+🧠 Machine Learning Model
+
+Algorithm Used: Gradient Boosting ( Ensemble Algorithm )
+
+Preprocessing: Label Encoding, One-Hot Encoding, and Standard Scaling
+
+The trained model generalizes well and can make accurate salary predictions for unseen employee data.
+
+🤝 Contributing
+
+Contributions are welcome!
+Fork this repo, improve it, and submit a PR.
