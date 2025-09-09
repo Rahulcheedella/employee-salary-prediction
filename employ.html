@@ -1,152 +1,256 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-t" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Employee Salary Prediction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
+    /*
+     * =============================================
+     * ADVANCED & GRACEFUL STYLING
+     * =============================================
+     */
+
+    /* --- 1. Root Variables for Easy Theming --- */
+    :root {
+      --bg-color: #111827;
+      --container-bg: rgba(31, 41, 55, 0.5);
+      --input-bg: rgba(55, 65, 81, 0.5);
+      --accent-color: #38bdf8; /* A nice, soft blue */
+      --accent-glow: rgba(56, 189, 248, 0.3);
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --border-color: rgba(107, 114, 128, 0.3);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --success-color: #4ade80;
+      --error-color: #f87171;
+      --font-family: 'Poppins', sans-serif;
+      --border-radius: 12px;
+    }
+
+    /* --- 2. General Body and Layout --- */
     * {
-  box-sizing: border-box;
-}
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #1a1f2e;
-  margin: 0;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #d1d5db;
-}
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-color);
+      /* A subtle gradient for depth */
+      background-image: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      color: var(--text-primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
 
-.container {
-  background: #2d3748;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  max-width: 700px;
-  width: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    /* --- 3. The "Glassmorphism" Container --- */
+    .container {
+      width: 100%;
+      max-width: 750px;
+      padding: 2.5rem;
+      background: var(--container-bg);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px); /* For Safari */
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+      animation: fadeIn 0.8s ease-in-out;
+    }
 
-.container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-h1 {
-  text-align: center;
-  color: #a3bffa;
-  font-size: 2rem;
-  margin-bottom: 30px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: color 0.3s ease;
-}
+    /* --- 4. Typography --- */
+    h1 {
+      text-align: center;
+      font-size: 2.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+    }
 
-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
+    label {
+      display: block;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
 
-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #e2e8f0;
-  transition: color 0.3s ease;
-}
+    /* --- 5. Form Elements Styling --- */
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
 
-input, select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #4a5568;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #2d3748;
-  color: #e2e8f0;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-}
+    .form-group {
+      position: relative;
+    }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-  transform: scale(1.02);
-}
+    input, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-family: var(--font-family);
+      color: var(--text-primary);
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      appearance: none; /* Removes default dropdown arrow */
+      -webkit-appearance: none;
+    }
 
-button {
-  grid-column: 1 / -1;
-  padding: 12px;
-  background: linear-gradient(90deg, #7e22ce, #a855f7);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
+    /* Custom dropdown arrow for <select> */
+    .select-wrapper {
+      position: relative;
+    }
+    .select-wrapper::after {
+      content: '▼';
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
 
-button:hover {
-  background: linear-gradient(90deg, #6b21a8, #9333ea);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4);
-}
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
 
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.2);
-}
+    /* --- 6. The Predict Button --- */
+    button {
+      grid-column: 1 / -1; /* Span across both columns */
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--accent-color), #67e8f9);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
 
-#result {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  color: #a3bffa;
-  padding: 15px;
-  border-radius: 8px;
-  background: #1a202c;
-  transition: background 0.3s ease, color 0.3s ease;
-}
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
+    }
+    
+    button:active {
+      transform: translateY(-1px);
+    }
 
-footer {
-  text-align: center;
-  margin-top: 20px;
-  color: #9ca3af;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
+    /* Loading animation for button */
+    button.loading {
+      color: transparent;
+      pointer-events: none;
+    }
 
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
+    button.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border: 3px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: button-loading-spinner 1s ease infinite;
+    }
 
-  form {
-    grid-template-columns: 1fr;
-  }
+    @keyframes button-loading-spinner {
+      from { transform: rotate(0turn); }
+      to { transform: rotate(1turn); }
+    }
 
-  h1 {
-    font-size: 1.5rem;
-  }
-}
+
+    /* --- 7. Result Display --- */
+    #result {
+      grid-column: 1 / -1;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: background-color 0.4s ease, color 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+    }
+    
+    #result.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    #result.success {
+        background-color: rgba(74, 222, 128, 0.1);
+        color: var(--success-color);
+    }
+    
+    #result.error {
+        background-color: rgba(248, 113, 113, 0.1);
+        color: var(--error-color);
+    }
+
+    /* --- 8. Footer --- */
+    footer {
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+    
+    /* --- 9. Responsive Design --- */
+    @media (max-width: 768px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .container {
+        padding: 1.5rem;
+      }
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Employee Salary Prediction</h1>
     <form id="predictForm">
-      <div>
+      <div class="form-group">
         <label>Age</label>
         <input type="number" id="age" value="39" />
       </div>
-      <div>
+      <div class="form-group select-wrapper">
         <label>Workclass</label>
         <select id="workclass">
           <option>Private</option>
@@ -159,15 +263,15 @@ footer {
           <option>Never-worked</option>
         </select>
       </div>
-      <div>
+      <div class="form-group">
         <label>Fnlwgt</label>
         <input type="number" id="fnlwgt" value="77516" />
       </div>
-      <div>
+      <div class="form-group">
         <label>Education Num</label>
         <input type="number" id="education-num" value="13" />
       </div>
-      <div>
+      <div class="form-group select-wrapper">
         <label>Marital Status</label>
         <select id="marital-status">
           <option>Never-married</option>
@@ -178,7 +282,7 @@ footer {
           <option>Married-spouse-absent</option>
         </select>
       </div>
-      <div>
+      <div class="form-group select-wrapper">
         <label>Occupation</label>
         <select id="occupation">
           <option>Prof-specialty</option>
@@ -186,7 +290,6 @@ footer {
           <option>Craft-repair</option>
           <option>Sales</option>
           <option>Exec-managerial</option>
-          <option>Prof-specialty</option>
           <option>Handlers-cleaners</option>
           <option>Machine-op-inspct</option>
           <option>Adm-clerical</option>
@@ -194,7 +297,7 @@ footer {
           <option>others</option>
         </select>
       </div>
-      <div>
+      <div class="form-group select-wrapper">
         <label>Relationship</label>
         <select id="relationship">
           <option>Not-in-family</option>
@@ -204,7 +307,7 @@ footer {
           <option>Unmarried</option>
         </select>
       </div>
-      <div>
+      <div class="form-group select-wrapper">
         <label>Race</label>
         <select id="race">
           <option>White</option>
@@ -214,7 +317,7 @@ footer {
           <option>Others</option>
         </select>
       </div>
-      <div>
+      <div class="form-group select-wrapper">
         <label>Gender</label>
         <select id="gender">
           <option>Male</option>
@@ -222,19 +325,19 @@ footer {
           <option>Others</option>
         </select>
       </div>
-      <div>
+      <div class="form-group">
         <label>Capital Gain</label>
         <input type="number" id="capital-gain" value="0" />
       </div>
-      <div>
+      <div class="form-group">
         <label>Capital Loss</label>
         <input type="number" id="capital-loss" value="0" />
       </div>
-      <div>
+      <div class="form-group">
         <label>Hours Per Week</label>
         <input type="number" id="hours-per-week" value="40" />
       </div>
-      <div style="grid-column:1/-1;">
+      <div class="form-group select-wrapper" style="grid-column:1/-1;">
         <label>Native Country</label>
         <select id="native-country">
           <option>United-States</option>
@@ -251,15 +354,17 @@ footer {
           <option>Japan</option>
         </select>
       </div>
-      <button type="submit">Predict</button>
+      <button type="submit" id="submitBtn">Predict</button>
+      <div id="result"></div>
     </form>
-
-    <div id="result">Prediction will appear here</div>
-
+    
     <footer>Rahul Cheedella | 2025</footer>
-
   </div>
 <script>
+  const form = document.getElementById('predictForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const resultDiv = document.getElementById('result');
+  
   const ENDPOINT = '/predict';
   const FEATURE_KEYS = [
     'age','workclass','fnlwgt','education-num','marital-status','occupation',
@@ -267,25 +372,39 @@ footer {
   ];
 
   function readForm(){
-    const obj = {};
+    const payload = {};
     FEATURE_KEYS.forEach(k => {
-      const id = k.replace(/-/g,'_');
-      const field = document.getElementById(id) || document.getElementById(k);
-      if(!field){ obj[k] = null; return; }
+      const field = document.getElementById(k);
+      if(!field) { 
+          payload[k] = null; 
+          return; 
+      }
       const val = field.value;
+      // Check if the key is for a numeric field
       if(['age','fnlwgt','education-num','capital-gain','capital-loss','hours-per-week'].includes(k)){
-        obj[k] = val === '' ? 0 : Number(val);
+        payload[k] = val === '' ? 0 : Number(val);
       } else {
-        obj[k] = val;
+        payload[k] = val;
       }
     });
-    return obj;
+    return payload;
+  }
+  
+  // A helper to show results with smooth animation
+  function showResult(message, isSuccess) {
+    resultDiv.textContent = message;
+    resultDiv.classList.remove('success', 'error'); // Reset classes
+    resultDiv.classList.add(isSuccess ? 'success' : 'error', 'visible');
   }
 
-  document.getElementById('predictForm').addEventListener('submit', async (ev) => {
+  form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
+    
+    // Show loading state
+    submitBtn.classList.add('loading');
+    resultDiv.classList.remove('visible'); // Hide previous result
+    
     const payload = readForm();
-    document.getElementById('result').textContent = "Predicting...";
 
     try {
       const resp = await fetch(ENDPOINT, {
@@ -296,26 +415,22 @@ footer {
 
       const data = await resp.json();
 
-      if(!resp.ok){
-        document.getElementById('result').textContent = "Error: " + (data.error || "Server error");
-        return;
+      if (!resp.ok) {
+        throw new Error(data.error || 'Server responded with an error');
       }
+      
+      // Check the value of data.label to format the output string
+      const predictionText = data.label == 1 ? '>=50k' : '<50k';
+      
+      showResult(`Predicted Salary: ${predictionText}`, true);
 
-      // 🔹 Only show label (e.g. >50K or <=50K)
-      if (data.label == 1) {
-      document.getElementById('result').textContent =
-        "Predicted Salary: " + ">50k";
-      }
-      else {
-        document.getElementById('result').textContent =
-        "Predicted Salary: " + "<=50k";
-      }
-
-    } catch(err){
-      document.getElementById('result').textContent = "Network error: " + err;
+    } catch(err) {
+      showResult(`Error: ${err.message}`, false);
+    } finally {
+      // Remove loading state
+      submitBtn.classList.remove('loading');
     }
   });
 </script>
-
 </body>
 </html>
