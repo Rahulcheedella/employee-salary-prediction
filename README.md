@@ -79,8 +79,11 @@ Preprocessing: Label Encoding, One-Hot Encoding, and Standard Scaling
 
 The trained model generalizes well and can make accurate salary predictions for unseen employee data.
 
+🚀 Page Visiting link: https://employee-salary-prediction-x25w.onrender.com/
+
 🤝 Contributing
 
 Contributions are welcome!
 Fork this repo, improve it, and submit a PR.
+
 
