@@ -268,8 +268,25 @@
         <input type="number" id="fnlwgt" value="77516" />
       </div>
       <div class="form-group">
-        <label>Education Num</label>
-        <input type="number" id="education-num" value="13" />
+        <label>Education</label>
+        <select id="Enter education-num">
+          <option>1.Preschool</option>
+          <option>2.1st-4th</option>
+          <option>3.5th-6th	</option>
+          <option>4.7th-8th</option>
+          <option>5.9th</option>
+          <option>6.10th</option>
+          <option>7.11th</option>
+          <option>8.12th</option>
+          <option>9.HS-grad</option>
+          <option>10.Some-college</option>
+          <option>11.Assoc-voc</option>
+          <option>12.Assoc-acdm</option>
+          <option>13.Bachelors</option>
+          <option>14.Masters</option>
+          <option>15.Prof-school</option>
+          <option>16.Doctorate</option>
+        </select>
       </div>
       <div class="form-group select-wrapper">
         <label>Marital Status</label>
@@ -373,15 +390,21 @@
 
   function readForm(){
     const payload = {};
+    const educationField = document.getElementById('Enter education-num');
+    
     FEATURE_KEYS.forEach(k => {
+      if (k === 'education-num') {
+        payload[k] = parseInt(educationField.value, 10);
+        return;
+      }
+
       const field = document.getElementById(k);
       if(!field) { 
           payload[k] = null; 
           return; 
       }
       const val = field.value;
-      // Check if the key is for a numeric field
-      if(['age','fnlwgt','education-num','capital-gain','capital-loss','hours-per-week'].includes(k)){
+      if(['age','fnlwgt','capital-gain','capital-loss','hours-per-week'].includes(k)){
         payload[k] = val === '' ? 0 : Number(val);
       } else {
         payload[k] = val;
@@ -390,19 +413,59 @@
     return payload;
   }
   
-  // A helper to show results with smooth animation
   function showResult(message, isSuccess) {
     resultDiv.textContent = message;
-    resultDiv.classList.remove('success', 'error'); // Reset classes
+    resultDiv.classList.remove('success', 'error');
     resultDiv.classList.add(isSuccess ? 'success' : 'error', 'visible');
   }
 
   form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     
-    // Show loading state
+    // --- 1. EMPTY FIELD VALIDATION ---
+    for (const key of FEATURE_KEYS) {
+        const fieldId = key === 'education-num' ? 'Enter education-num' : key;
+        const field = document.getElementById(fieldId);
+        if (field && field.tagName === 'INPUT' && field.value.trim() === '') {
+            const fieldName = key.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            alert(`Please fill out all fields. The "${fieldName}" field cannot be empty.`);
+            return; 
+        }
+    }
+
+    // --- 2. NEW CUSTOM VALIDATION RULES ---
+    const capitalGain = Number(document.getElementById('capital-gain').value);
+    const capitalLoss = Number(document.getElementById('capital-loss').value);
+    const hoursPerWeek = Number(document.getElementById('hours-per-week').value);
+    const ageNum = Number(document.getElementById('age').value);
+
+    if (ageNum < 0) {
+      alert('Validation Erro: Please Enter the valid age. ');
+    }
+
+    if (ageNum > 90) {
+      alert('Validation Error: Age greater than 90 are considered as old age.');
+    }
+
+    if (capitalGain > 100000) {
+        alert('Validation Error: Capital Gain cannot be more than 100,000.');
+        return; // Stop the prediction
+    }
+
+    if (capitalLoss > 5000) {
+        alert('Validation Error: Capital Loss cannot be more than 5,000.');
+        return; // Stop the prediction
+    }
+
+    if (hoursPerWeek > 99) {
+        alert('Validation Error: Hours Per Week cannot be more than 99.');
+        return; // Stop the prediction
+    }
+    // --- END OF VALIDATION ---
+
+    // Show loading state ONLY after all validation passes
     submitBtn.classList.add('loading');
-    resultDiv.classList.remove('visible'); // Hide previous result
+    resultDiv.classList.remove('visible');
     
     const payload = readForm();
 
@@ -419,7 +482,6 @@
         throw new Error(data.error || 'Server responded with an error');
       }
       
-      // Check the value of data.label to format the output string
       const predictionText = data.label == 1 ? '>=50k' : '<50k';
       
       showResult(`Predicted Salary: ${predictionText}`, true);
@@ -427,7 +489,6 @@
     } catch(err) {
       showResult(`Error: ${err.message}`, false);
     } finally {
-      // Remove loading state
       submitBtn.classList.remove('loading');
     }
   });
